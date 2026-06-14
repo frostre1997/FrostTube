@@ -1,1 +1,54 @@
-fr
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrostTube</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <button id="menu-btn" class="icon-btn">☰</button>
+            <div class="logo">FrostTube ❄️</div>
+        </div>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search YouTube...">
+            <button id="search-btn">Search</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <a href="#" class="nav-item active">🏠 <span>Home</span></a>
+            <a href="#" class="nav-item">🔥 <span>Trending</span></a>
+            <a href="#" class="nav-item">⭐ <span>Favorites</span></a>
+            <hr>
+            <div class="sidebar-footer">Powered by Piped</div>
+        </aside>
+
+        <main class="main-content">
+            <div id="watch-container" class="hidden">
+                <div class="player-block">
+                    <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
+                    <h2 id="video-title"></h2>
+                    <button id="close-player">Back to Home</button>
+                </div>
+                <div class="related-block">
+                    <h3>Related Content</h3>
+                    <div id="related-grid" class="side-grid">
+                        </div>
+                </div>
+            </div>
+
+            <div id="video-grid" class="video-grid">
+                <p class="message">Search for something to get started!</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+              </html>
+          
