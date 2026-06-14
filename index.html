@@ -8,6 +8,19 @@
 </head>
 <body>
 
+    <!-- Login Overlay Screen -->
+    <div id="login-container" class="login-overlay">
+        <div class="login-box">
+            <h2>FrostTube Login ❄️</h2>
+            <p>Accedi al tuo account locale</p>
+            <input type="text" id="username-input" placeholder="Username">
+            <input type="password" id="password-input" placeholder="Password">
+            <button id="login-btn">Accedi</button>
+            <div id="login-error" class="error-msg hidden">Credenziali non valide!</div>
+        </div>
+    </div>
+
+    <!-- Top Navigation Header -->
     <header>
         <div class="header-left">
             <button id="menu-btn" class="icon-btn">☰</button>
@@ -17,18 +30,26 @@
             <input type="text" id="search-input" placeholder="Search YouTube...">
             <button id="search-btn">Search</button>
         </div>
+        <div class="header-right">
+            <!-- Mostra l'utente loggato -->
+            <span id="user-display" class="user-badge">Ospite</span>
+        </div>
     </header>
 
     <div class="container">
+        <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
             <a href="#" class="nav-item active">🏠 <span>Home</span></a>
             <a href="#" class="nav-item">🔥 <span>Trending</span></a>
             <a href="#" class="nav-item">⭐ <span>Favorites</span></a>
             <hr>
+            <button id="logout-btn" class="logout-link">🚪 Disconnetti</button>
             <div class="sidebar-footer">Powered by Piped</div>
         </aside>
 
+        <!-- Main Content Area -->
         <main class="main-content">
+            <!-- Watch Section (Player + Related Videos) -->
             <div id="watch-container" class="hidden">
                 <div class="player-block">
                     <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
@@ -37,18 +58,18 @@
                 </div>
                 <div class="related-block">
                     <h3>Related Content</h3>
-                    <div id="related-grid" class="side-grid">
-                        </div>
+                    <div id="related-grid" class="side-grid"></div>
                 </div>
             </div>
 
+            <!-- Video Grid Results (Home/Search) -->
             <div id="video-grid" class="video-grid">
-                <p class="message">Search for something to get started!</p>
+                <p class="message">Accedi per iniziare a esplorare!</p>
             </div>
         </main>
     </div>
 
     <script src="app.js"></script>
 </body>
-              </html>
-          
+                                                      </html>
+                
