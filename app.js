@@ -145,3 +145,68 @@ function playVideo(id, title) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
         }
                      
+// Elemento DOM per la griglia dei correlati (aggiungilo in cima insieme agli altri se manca)
+const relatedGrid = document.getElementById('related-grid');
+
+// Modifica la funzione playVideo per includere il caricamento dei correlati
+function playVideo(id, title) {
+    videoPlayer.src = `https://piped.kavin.rocks/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+    videoTitle.textContent = title;
+    
+    videoGrid.classList.add('hidden'); 
+    watchContainer.classList.remove('hidden'); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Avvia il caricamento dei video correlati
+    fetchRelatedVideos(id);
+}
+
+// Nuova funzione per recuperare i video correlati dall'API di Piped
+async function fetchRelatedVideos(videoId) {
+    relatedGrid.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>Loading related...</p>";
+
+    try {
+        // Chiediamo i dettagli del video corrente, che contengono anche la lista dei correlati (relatedStreams)
+        const response = await fetch(`${API_BASE}/videos/${videoId}`);
+        const data = await response.json();
+
+        displayRelatedVideos(data.relatedStreams);
+    } catch (error) {
+        console.error("Errore nel caricamento dei correlati:", error);
+        relatedGrid.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>No related videos found.</p>";
+    }
+}
+
+// Funzione per mostrare i video correlati nella barra laterale
+function displayRelatedVideos(relatedVideos) {
+    relatedGrid.innerHTML = ""; // Pulisce il testo di caricamento
+
+    if (!relatedVideos || relatedVideos.length === 0) {
+        relatedGrid.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>No suggestions.</p>";
+        return;
+    }
+
+    // Prendiamo solo i primi 6 video per non allungare troppo la pagina sul tablet
+    relatedVideos.slice(0, 6).forEach(video => {
+        const relatedCard = document.createElement('div');
+        relatedCard.className = 'related-card';
+        
+        const videoId = video.url.split('=')[1];
+
+        relatedCard.innerHTML = `
+            <img src="${video.thumbnail}" alt="${video.title}">
+            <div class="related-info">
+                <h4>${video.title}</h4>
+                <p>${video.uploaderName}</p>
+            </div>
+        `;
+
+        // Se clicchi su un video correlato, il player si aggiorna con il nuovo video!
+        relatedCard.addEventListener('click', () => {
+            playVideo(videoId, video.title);
+        });
+
+        relatedGrid.appendChild(relatedCard);
+    });
+        }
+                     
