@@ -1,6 +1,6 @@
-// Using a public, free Piped API instance
 const API_BASE = "https://pipedapi.kavin.rocks";
 
+// DOM Elements
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 const videoGrid = document.getElementById('video-grid');
@@ -9,12 +9,63 @@ const videoPlayer = document.getElementById('video-player');
 const videoTitle = document.getElementById('video-title');
 const closePlayer = document.getElementById('close-player');
 
-// Fetch videos from API based on query
+// Login DOM Elements
+const loginContainer = document.getElementById('login-container');
+const usernameInput = document.getElementById('username-input');
+const passwordInput = document.getElementById('password-input');
+const loginBtn = document.getElementById('login-btn');
+const loginError = document.getElementById('login-error');
+const userDisplay = document.getElementById('user-display');
+const logoutBtn = document.getElementById('logout-btn');
+
+// --- GESTIONE LOGIN LOCALE ---
+const ACC_USER = "frostre1997";
+const ACC_PASS = "frost123"; // Puoi cambiare questa password direttamente qui nell'editor
+
+function checkAuth() {
+    const session = localStorage.getItem("frostTube_session");
+    if (session === ACC_USER) {
+        loginContainer.classList.add('hidden');
+        userDisplay.textContent = ACC_USER;
+        videoGrid.innerHTML = "<p class='message'>Bentornato! Cerca un video per iniziare.</p>";
+    } else {
+        loginContainer.classList.remove('hidden');
+        userDisplay.textContent = "Ospite";
+    }
+}
+
+loginBtn.addEventListener('click', () => {
+    const user = usernameInput.value.trim();
+    const pass = passwordInput.value;
+
+    if (user === ACC_USER && pass === ACC_PASS) {
+        localStorage.setItem("frostTube_session", ACC_USER);
+        loginError.classList.add('hidden');
+        usernameInput.value = "";
+        passwordInput.value = "";
+        checkAuth();
+    } else {
+        loginError.classList.remove('hidden');
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem("frostTube_session");
+    videoGrid.innerHTML = "<p class='message'>Accedi per iniziare a esplorare!</p>";
+    if (!watchContainer.classList.contains('hidden')) {
+        watchContainer.classList.add('hidden');
+        videoPlayer.src = "";
+    }
+    checkAuth();
+});
+
+// --- LOGICA VIDEO ---
 async function searchVideos() {
+    if (!localStorage.getItem("frostTube_session")) return;
+    
     const query = searchInput.value.trim();
     if (!query) return;
 
-    // Switch back to grid view if player is open
     watchContainer.classList.add('hidden');
     videoGrid.classList.remove('hidden');
     videoPlayer.src = ""; 
@@ -24,7 +75,6 @@ async function searchVideos() {
     try {
         const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query)}&filter=videos`);
         const data = await response.json();
-
         displayVideos(data.streams);
     } catch (error) {
         console.error(error);
@@ -32,7 +82,6 @@ async function searchVideos() {
     }
 }
 
-// Render video cards into the grid layout
 function displayVideos(videos) {
     videoGrid.innerHTML = ""; 
 
@@ -61,7 +110,6 @@ function displayVideos(videos) {
     });
 }
 
-// Inject video source into the iframe player and handle layouts
 function playVideo(id, title) {
     videoPlayer.src = `https://piped.kavin.rocks/embed/${id}`;
     videoTitle.textContent = title;
@@ -71,16 +119,17 @@ function playVideo(id, title) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Close player and return to grid
 closePlayer.addEventListener('click', () => {
     watchContainer.classList.add('hidden');
     videoGrid.classList.remove('hidden'); 
     videoPlayer.src = ""; 
 });
 
-// Event listeners
 searchBtn.addEventListener('click', searchVideos);
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') searchVideos();
 });
+
+// Avvia il controllo della sessione all'apertura della pagina
+checkAuth();
             
