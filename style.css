@@ -1,37 +1,37 @@
-/* Clean global reset & Variables */
 :root {
-    --bg-main: #0f0f0f;
-    --bg-nav: #212121;
-    --bg-card: #1c1c1c;
-    --text-color: #f1f1f1;
-    --accent: #ff0000;
-    --border-color: #303030;
+    --bg-main: #0a0f14;       /* Nero-blu profondo */
+    --bg-nav: #111a24;        /* Blu scuro per i menu */
+    --bg-card: #16222f;       /* Schede video */
+    --text-main: #e2f1ff;     /* Testo bianco ghiaccio */
+    --text-muted: #7a8f9f;    /* Testo secondario grigio-azzurro */
+    --accent: #00e5ff;        /* Ciano Neon (Frost) */
+    --border: #1f3144;        /* Bordi soft */
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
     background-color: var(--bg-main);
-    color: var(--text-color);
+    color: var(--text-main);
     overflow-x: hidden;
 }
 
-/* Top Navigation Header */
+/* Header & Search */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 1.5rem;
+    padding: 1rem 1.5rem;
     background-color: var(--bg-nav);
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .header-left {
@@ -43,50 +43,56 @@ header {
 .icon-btn {
     background: none;
     border: none;
-    color: white;
-    font-size: 1.3rem;
+    color: var(--text-main);
+    font-size: 1.4rem;
     cursor: pointer;
-    padding: 0.5rem;
 }
 
 .logo {
     font-size: 1.4rem;
-    font-weight: bold;
+    font-weight: 800;
     letter-spacing: -0.5px;
+    color: var(--text-main);
 }
 
 .search-box {
     display: flex;
-    width: 45%;
+    width: 50%;
+    max-width: 600px;
 }
 
 .search-box input {
     flex: 1;
-    padding: 0.6rem 1rem;
-    background-color: #121212;
-    border: 1px solid var(--border-color);
-    color: #fff;
-    border-radius: 40px 0 0 40px;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 20px 0 0 20px;
     outline: none;
-    font-size: 0.95rem;
 }
 
 .search-box button {
     padding: 0.6rem 1.5rem;
-    background-color: var(--border-color);
-    border: 1px solid var(--border-color);
-    color: #fff;
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
+    color: var(--bg-main);
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 0 40px 40px 0;
+    border-radius: 0 20px 20px 0;
+    transition: opacity 0.2s;
 }
 
-/* App Main Layout Structure */
+.search-box button:hover {
+    opacity: 0.9;
+}
+
+/* Main Layout Setup */
 .container {
     display: flex;
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 70px);
 }
 
-/* Sidebar Styling */
+/* Sidebar */
 .sidebar {
     width: 240px;
     background-color: var(--bg-nav);
@@ -94,35 +100,41 @@ header {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    flex-shrink: 0;
+    border-right: 1px solid var(--border);
 }
 
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0.8rem 1.5rem;
-    color: var(--text-color);
+    gap: 1.2rem;
+    padding: 0.8rem 1.2rem;
+    color: var(--text-muted);
     text-decoration: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    transition: background 0.2s;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
-.nav-item:hover, .nav-item.active {
-    background-color: rgba(255, 255, 255, 0.1);
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    background-color: rgba(0, 229, 255, 0.1);
+    color: var(--accent);
 }
 
 hr {
     border: 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
     margin: 1rem 0;
 }
 
 .sidebar-footer {
     margin-top: auto;
     font-size: 0.75rem;
-    color: #606060;
+    color: var(--text-muted);
     text-align: center;
 }
 
@@ -130,10 +142,9 @@ hr {
 .main-content {
     flex: 1;
     padding: 1.5rem;
-    overflow-y: auto;
 }
 
-/* Video Grid Layout */
+/* Responsive Grid layout for Videos */
 .video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -141,81 +152,80 @@ hr {
 }
 
 .video-card {
-    background-color: transparent;
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
     cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
 }
 
 .video-card img {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    border-radius: 12px;
-    background-color: #000;
-    transition: border-radius 0.2s;
-}
-
-.video-card:hover img {
-    border-radius: 0px;
 }
 
 .video-card h3 {
     font-size: 0.95rem;
-    margin-top: 0.6rem;
-    padding: 0 0.2rem;
+    padding: 0.8rem 0.8rem 0.2rem 0.8rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.3;
 }
 
 .video-card p {
     font-size: 0.85rem;
-    color: #aaa;
-    margin-top: 0.3rem;
-    padding: 0 0.2rem;
+    color: var(--text-muted);
+    padding: 0 0.8rem 0.8rem 0.8rem;
 }
 
-/* Watch/Player Split Layout (Tablet/Desktop View) */
+/* Split Video Player View */
 #watch-container {
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    grid-template-columns: 3fr 1.2fr;
     gap: 1.5rem;
-    max-width: 1400px;
-    margin: 0 auto;
 }
 
 .player-block iframe {
     width: 100%;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
 }
 
 #video-title {
     margin: 1rem 0;
-    font-size: 1.25rem;
-    line-height: 1.4;
+    font-size: 1.3rem;
 }
 
 #close-player {
     padding: 0.6rem 1.2rem;
-    background-color: var(--border-color);
-    color: white;
+    background-color: var(--accent);
+    color: var(--bg-main);
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 .related-block h3 {
     font-size: 1.1rem;
     margin-bottom: 1rem;
+    color: var(--accent);
 }
 
-/* Utilities */
+/* Global Utilities */
 .message {
     text-align: center;
-    color: #888;
+    color: var(--text-muted);
     margin-top: 5rem;
     font-size: 1.1rem;
 }
@@ -224,18 +234,19 @@ hr {
     display: none !important;
 }
 
-/* Responsive Adaptive Viewports */
+/* Media Queries per adattarsi al Tablet/Mobile */
 @media (max-width: 1024px) {
     #watch-container {
-        grid-template-columns: 1fr; /* Stack player and related items vertically on smaller tablets */
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        display: none; /* Hide standard sidebar on mobile */
+        display: none;
     }
     .search-box {
-        width: 65%;
+        width: 70%;
     }
-  }
+    }
+    
