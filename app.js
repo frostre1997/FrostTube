@@ -133,3 +133,15 @@ searchInput.addEventListener('keypress', (e) => {
 // Avvia il controllo della sessione all'apertura della pagina
 checkAuth();
             
+function playVideo(id, title) {
+    // Aggiungiamo i parametri ?autoplay=1&player_style=youtube per migliorare l'esperienza
+    videoPlayer.src = `https://piped.kavin.rocks/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+    videoTitle.textContent = title;
+    
+    videoGrid.classList.add('hidden'); 
+    watchContainer.classList.remove('hidden'); 
+    
+    // Auto-scroll per portare il player in primo piano sul tablet
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+                     
